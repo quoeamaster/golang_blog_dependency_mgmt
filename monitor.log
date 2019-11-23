@@ -1,2 +1,1 @@
-{"level":"info","id":"123456","raw":"127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] \\\"GET /apache_pb.gif HTTP/1.0\\\" 200 2326 \\\"http://www.example.com/start.html\\\" \\\"Mozilla/4.08 [en] (Win98; I ;Nav)\\","time":"2019-11-22T23:17:38+08:00"}
-{"level":"info","id":"123456","raw":"127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] \\\"GET /apache_pb.gif HTTP/1.0\\\" 200 2326 \\\"http://www.example.com/start.html\\\" \\\"Mozilla/4.08 [en] (Win98; I ;Nav)\\","time":"2019-11-22T23:17:39+08:00"}
+{"level":"info","id":"123456","raw":"127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] \\\"GET /apache_pb.gif HTTP/1.0\\\" 200 2326 \\\"http://www.example.com/start.html\\\" \\\"Mozilla/4.08 [en] (Win98; I ;Nav)\\","time":"2019-11-23T10:00:25+08:00"}

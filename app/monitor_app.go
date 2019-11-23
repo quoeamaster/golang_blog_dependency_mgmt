@@ -23,8 +23,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 )
+
 
 type MonitorApp struct {
 	// file-logger
@@ -32,6 +35,7 @@ type MonitorApp struct {
 	LogFilePointer *os.File // close the file when term signal received
 }
 
+// create / factory (??) method for the monitor_app structure
 func NewMonitorApp() *MonitorApp {
 	pInstance := new(MonitorApp)
 	err := pInstance.Init()
@@ -41,7 +45,27 @@ func NewMonitorApp() *MonitorApp {
 	return pInstance
 }
 
+// init the monitor_app
+// 1. setup signal detector
+// 2. setup logger
+// 3. setup REST
 func (m *MonitorApp) Init() (err error) {
+	// setup signal intercept
+	signalChannel := make(chan os.Signal, 1)
+	signal.Notify(signalChannel, os.Interrupt, os.Kill, syscall.SIGTERM)
+	go func() {
+		// get value from signal channel and stop the channel from operating (since term signal received)
+		signalValue := <-signalChannel
+		signal.Stop(signalChannel)
+
+		fmt.Println("signal received for termination:", signalValue)
+		if err := m.LogFilePointer.Close(); err != nil {
+			fmt.Println(err)
+			os.Exit(-1)
+		}
+		os.Exit(0)
+	}()
+
 	// setup the file logger
 	m.LogFilePointer, err = os.Create("monitor.log")
 	if err != nil {
@@ -65,6 +89,7 @@ func (m *MonitorApp) Init() (err error) {
 	return
 }
 
+// REST endpoint implementation for put /log/:id
 func (m *MonitorApp) LogMsgWithId(w rest.ResponseWriter, req *rest.Request) {
 	id := req.PathParam("id")
 
@@ -84,6 +109,7 @@ func (m *MonitorApp) LogMsgWithId(w rest.ResponseWriter, req *rest.Request) {
 	}
 }
 
+// REST endpoint implementation for get /logs
 func (m *MonitorApp) GetAllLogs(w rest.ResponseWriter, req *rest.Request) {
 	bContent, err := ioutil.ReadFile(m.LogFilePointer.Name())
 	if err != nil {

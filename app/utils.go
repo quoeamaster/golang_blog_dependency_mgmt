@@ -17,6 +17,7 @@ package app
 
 import "strings"
 
+// method to trim single quote, double quote and space
 func TrimQuotes(value string) (trimValue string) {
 	trimValue = strings.Trim(value, "'\" ")
 	return
