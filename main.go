@@ -16,11 +16,9 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"github.com/quoeamaster/golang_blog_dependency_mgmt/app"
 )
 
 func main()  {
-	mApp := app.NewMonitorApp()
-	fmt.Println("inside main", mApp)
+	app.NewMonitorApp()
 }
